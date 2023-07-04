@@ -65,6 +65,9 @@ export class App extends Component {
             images: [...prevState.images, ...images.hits],
           });
         }
+        if (page === totalPages) {
+          this.setState({ loadMoreBtn: false });
+        }
       } catch (error) {
         this.setState({ error: error.message });
         toast.error(error.message, toastConfig);
