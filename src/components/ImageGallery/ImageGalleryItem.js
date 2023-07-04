@@ -9,7 +9,7 @@ export const ImageGalleryItem = ({ id, webformatURL, largeImageURL, tags }) => {
 };
 
 ImageGalleryItem.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   webformatURL: PropTypes.string.isRequired,
   tags: PropTypes.string.isRequired,
   // largeImageURL:PropTypes.string.isRequired

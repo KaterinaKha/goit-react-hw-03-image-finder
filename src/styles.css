@@ -40,6 +40,7 @@ img {
  * Стили компонента Searchbar
  */
 .Searchbar {
+  margin-bottom: 10px;
   top: 0;
   left: 0;
   position: sticky;
@@ -204,4 +205,15 @@ img {
 .Button:hover,
 .Button:focus {
   background-color: #303f9f;
+}
+
+.btnContainer {
+  margin: 10px;
+  text-align: center;
+}
+.error {
+  display: block;
+  margin: 20px 30px;
+  align-items: center;
+  justify-content: center;
 }
