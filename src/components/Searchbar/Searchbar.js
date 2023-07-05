@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BiSearchAlt } from 'react-icons/bi';
+
+const toastConfig = {
+  position: 'top-left',
+  autoClose: 2000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: 'light',
+};
 
 export default class Searchbar extends Component {
   state = {
@@ -16,7 +28,7 @@ export default class Searchbar extends Component {
     e.preventDefault();
     const searchQuery = this.state.searchQuery.trim();
     if (searchQuery === '') {
-      toast.warn('Please enter search query');
+      toast.warn('Please enter search query', toastConfig);
       return;
     }
     this.props.onSubmit(searchQuery);
@@ -28,6 +40,7 @@ export default class Searchbar extends Component {
       <header className="Searchbar">
         <form className="SearchForm" onSubmit={this.handleSubmit}>
           <button type="submit" className="SearchForm-button">
+            <BiSearchAlt className="svg" />
             <span className="SearchForm-button-label">Search</span>
           </button>
 
