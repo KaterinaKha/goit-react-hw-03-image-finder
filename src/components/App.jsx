@@ -6,6 +6,7 @@ import Searchbar from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { fetchImages } from 'services/api';
 import { Button } from './Button/Button';
+import { Modal } from './Modal/Modal';
 
 const toastConfig = {
   position: 'top-left',
@@ -25,6 +26,8 @@ export class App extends Component {
     loading: false,
     loadMoreBtn: false,
     error: false,
+
+    modal: { isOpen: false, imgURL: '' },
   };
 
   handleFormSubmit = searchQuery => {
@@ -37,20 +40,36 @@ export class App extends Component {
     }));
   };
 
+  onOpenModal = imgURL => {
+    this.setState({ modal: { isOpen: true, imgURL: imgURL } });
+  };
+
+  onCloseModal = () => {
+    this.setState({ modal: { isOpen: false, imgURL: false } });
+  };
+
   async componentDidUpdate(prevProps, prevState) {
     const { searchQuery, page } = this.state;
     const prevSearchQuery = prevState.searchQuery;
     const prevPage = prevState.page;
 
-    if (prevSearchQuery !== searchQuery || prevPage !== page) {
+    if (searchQuery !== prevSearchQuery || prevPage !== page) {
       try {
         this.setState({ loading: true });
         const images = await fetchImages(searchQuery, page);
 
-        this.setState({ images: images.hits });
-
         const totalHits = images.totalHits;
         const totalPages = Math.ceil(totalHits / 12);
+        const isMorePages = page < totalPages;
+
+        if (prevSearchQuery !== searchQuery) {
+          this.setState({ images: images.hits, loadMoreBtn: isMorePages });
+        } else {
+          this.setState({
+            images: [...prevState.images, ...images.hits],
+            loadMoreBtn: isMorePages,
+          });
+        }
 
         if (images.hits.length === 0) {
           toast.warn('...ooops! No images', toastConfig);
@@ -59,12 +78,7 @@ export class App extends Component {
         if (page === 1 && images.hits.length > 0) {
           toast.success('Your images were successfully fetched!', toastConfig);
         }
-        if (totalPages > page) {
-          this.setState({
-            loadMoreBtn: true,
-            images: [...prevState.images, ...images.hits],
-          });
-        }
+
         if (page === totalPages) {
           this.setState({ loadMoreBtn: false });
         }
@@ -78,11 +92,11 @@ export class App extends Component {
   }
   //==========================================================
   render() {
-    const { images, loading, loadMoreBtn, error } = this.state;
+    const { images, loading, loadMoreBtn, error, modal } = this.state;
     return (
       <div>
         <ToastContainer />
-        <Searchbar onSubmit={this.handleFormSubmit} />
+        {error && <h2 className="error">{error}</h2>}
         {loading && (
           <ThreeDots
             height="80"
@@ -95,10 +109,16 @@ export class App extends Component {
             visible={true}
           />
         )}
-        <ImageGallery images={images} />
+        <Searchbar onSubmit={this.handleFormSubmit} />
+        <ImageGallery images={images} onOpenModal={this.onOpenModal} />
         {loadMoreBtn && <Button onClick={this.onLoadMore} />}
-
-        {error && <h2 className="error">{error}</h2>}
+        {modal.isOpen && (
+          <Modal
+            onCloseModal={this.onCloseModal}
+            onOpenModal={this.onOpenModal}
+            imgURL={modal.imgURL}
+          />
+        )}
       </div>
     );
   }

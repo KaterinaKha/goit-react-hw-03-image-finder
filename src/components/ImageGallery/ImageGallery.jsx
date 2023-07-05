@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import { ImageGalleryItem } from './ImageGalleryItem';
 
-export const ImageGallery = ({ images }) => {
+export const ImageGallery = ({ images, onOpenModal }) => {
   return (
     <ul className="ImageGallery">
-      {images.map(({ id, webformatURL, largeImageURL, tags }) => (
+      {images.map(image => (
+        // console.log(image)
         <ImageGalleryItem
-          key={id}
-          webformatURL={webformatURL}
-          largeImageURL={largeImageURL}
-          tags={tags}
+          key={image.id}
+          image={image}
+          onOpenModal={onOpenModal}
         />
       ))}
     </ul>
@@ -18,4 +18,5 @@ export const ImageGallery = ({ images }) => {
 
 ImageGallery.propTypes = {
   images: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onOpenModal: PropTypes.func.isRequired,
 };
