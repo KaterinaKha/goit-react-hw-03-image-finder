@@ -9,7 +9,6 @@ export class Modal extends React.Component {
   };
 
   handleOverlayClick = e => {
-    console.log(e.target, e.currentTarget);
     if (e.currentTarget === e.target) {
       this.props.onCloseModal();
     }
