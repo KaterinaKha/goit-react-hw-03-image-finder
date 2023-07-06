@@ -7,6 +7,7 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { fetchImages } from 'services/api';
 import { Button } from './Button/Button';
 import { Modal } from './Modal/Modal';
+import { Error } from './Error/Error';
 
 const toastConfig = {
   position: 'top-left',
@@ -96,7 +97,7 @@ export class App extends Component {
     return (
       <div>
         <ToastContainer />
-        {error && <h2 className="error">{error}</h2>}
+
         {loading && (
           <ThreeDots
             height="80"
@@ -110,6 +111,7 @@ export class App extends Component {
           />
         )}
         <Searchbar onSubmit={this.handleFormSubmit} />
+        {error && <Error error={error} />}
         <ImageGallery images={images} onOpenModal={this.onOpenModal} />
         {loadMoreBtn && <Button onClick={this.onLoadMore} />}
         {modal.isOpen && (

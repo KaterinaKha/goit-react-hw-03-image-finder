@@ -1,4 +1,5 @@
 import React from 'react';
+import css from './Modal.module.css';
 
 export class Modal extends React.Component {
   handleKeyClick = e => {
@@ -25,8 +26,8 @@ export class Modal extends React.Component {
   render() {
     const { imgURL, onCloseModal } = this.props;
     return (
-      <div className="Overlay" onClick={this.handleOverlayClick}>
-        <div className="Modal" onCloseModal={onCloseModal}>
+      <div className={css.Overlay} onClick={this.handleOverlayClick}>
+        <div className={css.Modal} onCloseModal={onCloseModal}>
           <img src={imgURL} alt="" />
         </div>
       </div>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BiSearchAlt } from 'react-icons/bi';
+import css from './Searchbar.module.css';
 
 const toastConfig = {
   position: 'top-left',
@@ -37,15 +38,15 @@ export default class Searchbar extends Component {
 
   render() {
     return (
-      <header className="Searchbar">
-        <form className="SearchForm" onSubmit={this.handleSubmit}>
-          <button type="submit" className="SearchForm-button">
-            <BiSearchAlt className="svg" />
-            <span className="SearchForm-button-label">Search</span>
+      <header className={css.Searchbar}>
+        <form className={css.SearchForm} onSubmit={this.handleSubmit}>
+          <button type="submit" className={css.SearchForm_button}>
+            <BiSearchAlt className={css.svg} />
+            <span className={css.SearchForm_button_label}>Search</span>
           </button>
 
           <input
-            className="SearchForm-input"
+            className={css.SearchForm_input}
             type="text"
             autoComplete="off"
             autoFocus
